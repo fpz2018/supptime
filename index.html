@@ -309,11 +309,11 @@
 
         <nav>
             <div class="container nav-tabs">
-                <button class="nav-tab active" data-tab="today" onclick="switchTab('today')">&#127780; Vandaag</button>
-                <button class="nav-tab" data-tab="schedule" onclick="switchTab('schedule')">&#128197; Schema</button>
-                <button class="nav-tab" data-tab="interactions" onclick="switchTab('interactions')">&#9888; Interacties</button>
-                <button class="nav-tab" data-tab="supplements" onclick="switchTab('supplements')">&#128218; Info</button>
-                <button class="nav-tab" data-tab="profile" onclick="switchTab('profile')">&#128100; Profiel</button>
+                <button class="nav-tab active" data-tab="today" onclick="switchTab('today')"><span>&#127780;</span><span>Vandaag</span></button>
+                <button class="nav-tab" data-tab="schedule" onclick="switchTab('schedule')"><span>&#128197;</span><span>Schema</span></button>
+                <button class="nav-tab" data-tab="interactions" onclick="switchTab('interactions')"><span>&#9888;</span><span>Interacties</span></button>
+                <button class="nav-tab" data-tab="supplements" onclick="switchTab('supplements')"><span>&#128218;</span><span>Info</span></button>
+                <button class="nav-tab" data-tab="profile" onclick="switchTab('profile')"><span>&#128100;</span><span>Profiel</span></button>
             </div>
         </nav>
 
@@ -353,6 +353,7 @@
                         <button class="btn btn-outline btn-sm" onclick="requestNotifications()">&#128276; Reminders aan</button>
                     </div>
                     <div id="today-timeline"></div>
+                    <div id="today-pager" class="today-pager"></div>
                 </div>
 
                 <div class="card disclaimer-card">

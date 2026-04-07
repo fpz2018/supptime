@@ -535,7 +535,47 @@ function renderToday() {
                     </div>`).join('')}
             </div>
         </div>`).join('');
+
+    // Mobile pager: one slot at a time, default to "now or next"
+    state._todayPlan = plan;
+    const startIdx = plan.findIndex(s => s.time >= nowMin);
+    state._todayIdx = startIdx === -1 ? plan.length - 1 : startIdx;
+    renderTodayPager();
 }
+
+function renderTodayPager() {
+    const pager = document.getElementById('today-pager');
+    if (!pager) return;
+    const plan = state._todayPlan || [];
+    if (!plan.length) { pager.innerHTML = ''; return; }
+    const idx = state._todayIdx;
+    const slot = plan[idx];
+    const now = new Date();
+    const nowMin = now.getHours()*60 + now.getMinutes();
+    pager.innerHTML = `
+        <div class="today-pager-card ${slot.time < nowMin ? 'past' : ''}">
+            <div class="today-pager-time">${minToTime(slot.time)}</div>
+            <div class="today-pager-label">${slot.label}</div>
+            ${slot.items.map(i => `
+                <div class="timeline-item tag-${i.tag||''}">
+                    <strong>${i.name}</strong>
+                    <div class="timeline-note">${i.note}</div>
+                </div>`).join('')}
+        </div>
+        <div class="today-pager-controls">
+            <button class="btn btn-sm btn-outline" onclick="todayPagerStep(-1)" ${idx===0?'disabled':''}>‹ Vorige</button>
+            <div class="today-pager-dots">
+                ${plan.map((s,i) => `<button class="today-pager-dot ${i===idx?'active':''} ${s.time<nowMin?'past':''}" onclick="todayPagerJump(${i})" title="${minToTime(s.time)}"></button>`).join('')}
+            </div>
+            <button class="btn btn-sm btn-outline" onclick="todayPagerStep(1)" ${idx===plan.length-1?'disabled':''}>Volgende ›</button>
+        </div>`;
+}
+function todayPagerStep(delta) {
+    const plan = state._todayPlan || [];
+    state._todayIdx = Math.max(0, Math.min(plan.length-1, state._todayIdx + delta));
+    renderTodayPager();
+}
+function todayPagerJump(i) { state._todayIdx = i; renderTodayPager(); }
 
 // ===== EAT NOW =====
 function eatNow(mealSlot) {
