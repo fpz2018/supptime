@@ -566,6 +566,8 @@ main { padding-top: 24px; padding-bottom: 40px; }
 /* ===== LOGIN ===== */
 .auth-wrap { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; background: linear-gradient(135deg, #dbeafe 0%, #f8fafc 100%); }
 .auth-card { background: var(--card); border-radius: var(--radius); padding: 40px 32px; max-width: 440px; width: 100%; box-shadow: var(--shadow-lg); }
+.import-divider { display: flex; align-items: center; gap: 12px; margin: 20px 0; color: var(--muted); font-size: 13px; }
+.import-divider::before, .import-divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
 .brand { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
 .brand-icon { font-size: 2rem; }
 .brand h1 { font-size: 1.8rem; color: var(--primary); }

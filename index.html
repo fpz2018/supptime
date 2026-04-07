@@ -41,6 +41,10 @@
                     <button class="btn btn-primary btn-lg" onclick="doLogin()">Inloggen &#10132;</button>
                 </div>
 
+                <div class="import-divider"><span>of</span></div>
+                <button class="btn btn-outline btn-lg" onclick="document.getElementById('login-import-file').click()">📥 Importeer bestaande gegevens</button>
+                <input type="file" id="login-import-file" accept="application/json,.json" style="display:none" onchange="importData(event)">
+
                 <p class="legal-note">&#9888; Educatieve app &mdash; geen medisch advies. Raadpleeg altijd een arts.</p>
             </div>
         </div>
