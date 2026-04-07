@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SuppTime &mdash; Slik je supplementen op het juiste moment</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#2563eb">
+    <link rel="icon" type="image/svg+xml" href="icon.svg">
+    <link rel="apple-touch-icon" href="icon.svg">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="SuppTime">
+</head>
+<body>
+<div id="app">
+
+    <!-- ============ LOGIN SCREEN ============ -->
+    <section id="screen-login" class="screen active">
+        <div class="auth-wrap">
+            <div class="auth-card">
+                <div class="brand">
+                    <span class="brand-icon">&#9201;</span>
+                    <h1>SuppTime</h1>
+                </div>
+                <p class="brand-tagline">Slik je supplementen op het juiste moment, met de juiste cofactoren, voor het maximale effect.</p>
+
+                <div id="login-form">
+                    <h2>Inloggen of registreren</h2>
+                    <p class="form-hint">Je gegevens worden lokaal in je browser opgeslagen.</p>
+                    <div class="form-group">
+                        <label>Naam</label>
+                        <input type="text" id="login-name" placeholder="Bijv. Marc">
+                    </div>
+                    <div class="form-group">
+                        <label>E-mail</label>
+                        <input type="email" id="login-email" placeholder="jij@voorbeeld.nl">
+                    </div>
+                    <button class="btn btn-primary btn-lg" onclick="doLogin()">Inloggen &#10132;</button>
+                </div>
+
+                <p class="legal-note">&#9888; Educatieve app &mdash; geen medisch advies. Raadpleeg altijd een arts.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ ONBOARDING ============ -->
+    <section id="screen-onboarding" class="screen">
+        <div class="onboard-wrap">
+            <div class="onboard-progress">
+                <div class="progress-bar"><div id="progress-fill" class="progress-fill"></div></div>
+                <span id="progress-text">Stap 1 van 6</span>
+            </div>
+
+            <!-- Step 1: Welcome -->
+            <div class="onboard-step active" data-step="1">
+                <h2>Welkom <span id="welcome-name"></span>!</h2>
+                <p class="step-desc">In 5 korte stappen stellen we jouw persoonlijke supplementschema samen. Zo weet je elke dag <strong>wat</strong> je moet slikken, <strong>wanneer</strong>, en <strong>waarmee</strong> voor de beste opname.</p>
+                <div class="info-grid">
+                    <div class="info-item"><span class="info-icon">&#127919;</span><div><strong>Persoonlijk</strong><br><small>Op jouw profiel afgestemd</small></div></div>
+                    <div class="info-item"><span class="info-icon">&#9202;</span><div><strong>Reminders</strong><br><small>Op het juiste moment</small></div></div>
+                    <div class="info-item"><span class="info-icon">&#128138;</span><div><strong>Veilig</strong><br><small>Detecteert medicatie-interacties</small></div></div>
+                </div>
+                <div class="step-actions">
+                    <button class="btn btn-primary" onclick="nextStep()">Beginnen &#10132;</button>
+                </div>
+            </div>
+
+            <!-- Step 2: Personal data -->
+            <div class="onboard-step" data-step="2">
+                <h2>Over jou</h2>
+                <p class="step-desc">Deze gegevens helpen ons jouw doseringen en timing te personaliseren.</p>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Leeftijdscategorie</label>
+                        <select id="ob-age">
+                            <option value="">Kies...</option>
+                            <option value="child">Kind/Tiener (6-17)</option>
+                            <option value="adult">Volwassene (18-49)</option>
+                            <option value="senior">50+ jaar</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Biologisch geslacht</label>
+                        <select id="ob-gender">
+                            <option value="">Kies...</option>
+                            <option value="male">Man</option>
+                            <option value="female">Vrouw</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Activiteitsniveau</label>
+                        <select id="ob-activity">
+                            <option value="">Kies...</option>
+                            <option value="sedentary">Sedentair (kantoorwerk)</option>
+                            <option value="moderate">Matig actief</option>
+                            <option value="athlete">Intensief / Krachtsport</option>
+                            <option value="endurance">Duursport</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Primair gezondheidsdoel</label>
+                        <select id="ob-goal">
+                            <option value="">Kies...</option>
+                            <option value="general">Algemene gezondheid</option>
+                            <option value="energy">Energie & Cognitie</option>
+                            <option value="sleep">Slaapoptimalisatie</option>
+                            <option value="sport">Sportprestatie & Herstel</option>
+                            <option value="bone">Botgezondheid</option>
+                            <option value="immune">Immuunsysteem</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="step-actions">
+                    <button class="btn btn-outline" onclick="prevStep()">&#10094; Terug</button>
+                    <button class="btn btn-primary" onclick="nextStep()">Volgende &#10132;</button>
+                </div>
+            </div>
+
+            <!-- Step 3: Daily routine -->
+            <div class="onboard-step" data-step="3">
+                <h2>Je dagindeling</h2>
+                <p class="step-desc">Wanneer sta je op en eet je je maaltijden? Hierop stemmen we je reminders af.</p>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Opstaan</label>
+                        <input type="time" id="ob-wake" value="07:00">
+                    </div>
+                    <div class="form-group">
+                        <label>Ontbijt</label>
+                        <input type="time" id="ob-breakfast" value="07:30">
+                    </div>
+                    <div class="form-group">
+                        <label>Lunch</label>
+                        <input type="time" id="ob-lunch" value="12:30">
+                    </div>
+                    <div class="form-group">
+                        <label>Avondmaaltijd</label>
+                        <input type="time" id="ob-dinner" value="18:30">
+                    </div>
+                    <div class="form-group">
+                        <label>Naar bed</label>
+                        <input type="time" id="ob-sleep" value="22:30">
+                    </div>
+                </div>
+                <div class="step-actions">
+                    <button class="btn btn-outline" onclick="prevStep()">&#10094; Terug</button>
+                    <button class="btn btn-primary" onclick="nextStep()">Volgende &#10132;</button>
+                </div>
+            </div>
+
+            <!-- Step 4: Werk, training & leefstijl -->
+            <div class="onboard-step" data-step="4">
+                <h2>Werk, training & leefstijl</h2>
+                <p class="step-desc">Deze details bepalen <em>wanneer</em> bepaalde supplementen het beste werken (en welke je beter even moet uitstellen).</p>
+
+                <h3 class="subhead">Werk — per dag</h3>
+                <p class="step-desc" style="margin-top:-8px">Vink de dagen aan waarop je werkt en geef per dag de tijden op.</p>
+                <div class="form-group">
+                    <label>Werkpatroon</label>
+                    <select id="ob-work-pattern">
+                        <option value="day">Dagdienst</option>
+                        <option value="evening">Avonddienst</option>
+                        <option value="night">Nachtdienst</option>
+                        <option value="rotating">Wisselende diensten</option>
+                        <option value="flexible">Flexibel / thuis</option>
+                        <option value="none">Geen werk</option>
+                    </select>
+                </div>
+                <div class="day-schedule" id="ob-work-schedule"></div>
+
+                <h3 class="subhead">Training — per dag</h3>
+                <p class="step-desc" style="margin-top:-8px">Vink de dagen aan waarop je traint, met tijd en sport per dag.</p>
+                <div class="day-schedule" id="ob-train-schedule"></div>
+
+                <h3 class="subhead">Leefstijl (beïnvloedt opname)</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Koffie/thee momenten</label>
+                        <select id="ob-coffee">
+                            <option value="none">Geen</option>
+                            <option value="morning">Alleen ochtend</option>
+                            <option value="morning-afternoon" selected>Ochtend + middag</option>
+                            <option value="all-day">De hele dag</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Buiten / zonlicht per dag</label>
+                        <select id="ob-sun">
+                            <option value="low">Weinig (&lt; 15 min)</option>
+                            <option value="medium" selected>Gemiddeld (15-60 min)</option>
+                            <option value="high">Veel (&gt; 1 uur)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Stressniveau</label>
+                        <select id="ob-stress">
+                            <option value="low">Laag</option>
+                            <option value="medium" selected>Gemiddeld</option>
+                            <option value="high">Hoog / chronisch</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Alcohol</label>
+                        <select id="ob-alcohol">
+                            <option value="none" selected>Zelden / nooit</option>
+                            <option value="moderate">Af en toe</option>
+                            <option value="frequent">Regelmatig</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Roken</label>
+                        <select id="ob-smoking">
+                            <option value="none" selected>Nee</option>
+                            <option value="occasional">Soms</option>
+                            <option value="daily">Dagelijks</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Anticonceptie</label>
+                        <select id="ob-contraception">
+                            <option value="none" selected>Geen / n.v.t.</option>
+                            <option value="pill">Anticonceptiepil</option>
+                            <option value="hormonal">Andere hormonale (ring, pleister, prikpil)</option>
+                            <option value="iud-hormonal">Hormonaal spiraaltje</option>
+                            <option value="iud-copper">Koperspiraaltje</option>
+                            <option value="other">Anders / niet-hormonaal</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Slaapkwaliteit</label>
+                        <select id="ob-sleep-quality">
+                            <option value="good" selected>Goed</option>
+                            <option value="moderate">Matig</option>
+                            <option value="poor">Slecht / onrustig</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Gewicht (kg)</label>
+                        <input type="number" id="ob-weight" min="30" max="250" placeholder="bv. 75">
+                    </div>
+                    <div class="form-group">
+                        <label>Lengte (cm)</label>
+                        <input type="number" id="ob-height" min="100" max="230" placeholder="bv. 178">
+                    </div>
+                    <div class="form-group">
+                        <label>Reis je momenteel / jetlag?</label>
+                        <select id="ob-jetlag">
+                            <option value="no" selected>Nee</option>
+                            <option value="yes">Ja, ik ervaar jetlag</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="step-actions">
+                    <button class="btn btn-outline" onclick="prevStep()">&#10094; Terug</button>
+                    <button class="btn btn-primary" onclick="nextStep()">Volgende &#10132;</button>
+                </div>
+            </div>
+
+            <!-- Step 5: Supplements -->
+            <div class="onboard-step" data-step="5">
+                <h2>Welke supplementen slik je?</h2>
+                <p class="step-desc">Selecteer alles wat je nu gebruikt of wilt gaan gebruiken.</p>
+                <div class="supplement-grid" id="supplement-checkboxes"></div>
+                <div class="step-actions">
+                    <button class="btn btn-outline" onclick="prevStep()">&#10094; Terug</button>
+                    <button class="btn btn-primary" onclick="nextStep()">Volgende &#10132;</button>
+                </div>
+            </div>
+
+            <!-- Step 6: Medication -->
+            <div class="onboard-step" data-step="6">
+                <h2>Medicatie & Bijzonderheden</h2>
+                <p class="step-desc">Cruciaal voor het detecteren van interacties. Sla over als niet van toepassing.</p>
+                <h3 class="subhead">Medicatie</h3>
+                <div class="supplement-grid" id="medication-checkboxes"></div>
+                <h3 class="subhead">Bijzonderheden</h3>
+                <div class="supplement-grid" id="condition-checkboxes"></div>
+                <div class="step-actions">
+                    <button class="btn btn-outline" onclick="prevStep()">&#10094; Terug</button>
+                    <button class="btn btn-primary" onclick="finishOnboarding()">Schema genereren &#10132;</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ MAIN APP ============ -->
+    <section id="screen-main" class="screen">
+        <header>
+            <div class="container header-content">
+                <div class="brand-mini">
+                    <span class="brand-icon">&#9201;</span>
+                    <strong>SuppTime</strong>
+                </div>
+                <div class="header-right">
+                    <button class="icon-btn" id="notif-btn" onclick="requestNotifications()" title="Reminders inschakelen">&#128276;</button>
+                    <span class="user-chip" id="user-chip"></span>
+                    <button class="icon-btn" onclick="logout()" title="Uitloggen">&#9166;</button>
+                </div>
+            </div>
+        </header>
+
+        <nav>
+            <div class="container nav-tabs">
+                <button class="nav-tab active" data-tab="today" onclick="switchTab('today')">&#127780; Vandaag</button>
+                <button class="nav-tab" data-tab="schedule" onclick="switchTab('schedule')">&#128197; Schema</button>
+                <button class="nav-tab" data-tab="interactions" onclick="switchTab('interactions')">&#9888; Interacties</button>
+                <button class="nav-tab" data-tab="supplements" onclick="switchTab('supplements')">&#128218; Info</button>
+                <button class="nav-tab" data-tab="profile" onclick="switchTab('profile')">&#128100; Profiel</button>
+            </div>
+        </nav>
+
+        <main class="container">
+            <!-- TODAY -->
+            <div id="tab-today" class="tab-content active">
+                <div class="hero-card">
+                    <div class="hero-greeting">
+                        <span id="greeting-emoji">&#127780;</span>
+                        <div>
+                            <h2 id="greeting-text">Hallo!</h2>
+                            <p id="today-date"></p>
+                        </div>
+                    </div>
+                    <div class="next-up" id="next-up">
+                        <!-- next supplement -->
+                    </div>
+                    <div class="eat-now-bar">
+                        <span>Ga je nu eten? Krijg direct advies:</span>
+                        <button class="btn btn-sm" onclick="eatNow('breakfast')">🍳 Ontbijt</button>
+                        <button class="btn btn-sm" onclick="eatNow('midday')">🥗 Lunch</button>
+                        <button class="btn btn-sm" onclick="eatNow('evening')">🍽 Diner</button>
+                    </div>
+                    <div id="eat-now-result"></div>
+                    <div class="eat-now-bar">
+                        <span>Ga je nu sporten? Krijg direct advies:</span>
+                        <button class="btn btn-sm" onclick="trainNow('pre')">💪 Vóór training</button>
+                        <button class="btn btn-sm" onclick="trainNow('during')">⏱ Tijdens</button>
+                        <button class="btn btn-sm" onclick="trainNow('post')">🏁 Na training</button>
+                    </div>
+                    <div id="train-now-result"></div>
+                </div>
+
+                <div class="card">
+                    <div class="card-head">
+                        <h2>Je dag in supplementen</h2>
+                        <button class="btn btn-outline btn-sm" onclick="requestNotifications()">&#128276; Reminders aan</button>
+                    </div>
+                    <div id="today-timeline"></div>
+                </div>
+
+                <div class="card disclaimer-card">
+                    <p>&#9888; <strong>Educatieve app &mdash; geen medisch advies.</strong> Raadpleeg altijd een arts voordat je wijzigingen aanbrengt in je supplement- of medicatiegebruik.</p>
+                </div>
+            </div>
+
+            <!-- SCHEDULE -->
+            <div id="tab-schedule" class="tab-content">
+                <div id="schedule-content"></div>
+            </div>
+
+            <!-- INTERACTIONS -->
+            <div id="tab-interactions" class="tab-content">
+                <div class="card">
+                    <h2>Interactie-Matrix</h2>
+                    <p class="card-desc">Synergieen, scheidingstijden en contra-indicaties tussen jouw supplementen en medicatie.</p>
+                    <div class="legend">
+                        <span class="legend-item"><span class="dot green"></span> Synergie</span>
+                        <span class="legend-item"><span class="dot yellow"></span> Timing aanpassen</span>
+                        <span class="legend-item"><span class="dot red"></span> Strikte scheiding</span>
+                    </div>
+                </div>
+                <div id="interactions-content"></div>
+            </div>
+
+            <!-- ENCYCLOPEDIA -->
+            <div id="tab-supplements" class="tab-content">
+                <div class="card">
+                    <h2>Supplement Info</h2>
+                    <p class="card-desc">Uitgebreide info over timing, absorptie, vorm en mechanisme.</p>
+                    <input type="text" id="search-input" placeholder="&#128269; Zoek supplement..." oninput="filterEncyclopedia()">
+                </div>
+                <div id="encyclopedia-content"></div>
+            </div>
+
+            <!-- PROFILE -->
+            <div id="tab-profile" class="tab-content">
+                <div class="card">
+                    <h2>Mijn profiel</h2>
+                    <div id="profile-summary"></div>
+                    <button class="btn btn-outline" onclick="editProfile()">&#9998; Profiel bewerken</button>
+                </div>
+                <div class="card">
+                    <h2>Overzetten naar ander apparaat</h2>
+                    <p class="card-desc">Om je gegevens op je telefoon én laptop te gebruiken: exporteer op het ene apparaat en importeer op het andere. Je gegevens blijven lokaal op je apparaat.</p>
+                    <div class="btn-row">
+                        <button class="btn btn-outline" onclick="exportData()">&#128229; Exporteren</button>
+                        <button class="btn btn-outline" onclick="document.getElementById('import-file').click()">&#128228; Importeren</button>
+                        <input type="file" id="import-file" accept="application/json,.json" style="display:none" onchange="importData(event)">
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <div class="container">
+                <p>&#9888; Educatieve app &mdash; geen medisch advies. Bronnen: orthomoleculaire en reguliere wetenschappelijke literatuur (2024-2025).</p>
+            </div>
+        </footer>
+    </section>
+</div>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+<script>
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js').catch(err => console.warn('SW registration failed:', err));
+    });
+}
+</script>
+</body>
+</html>

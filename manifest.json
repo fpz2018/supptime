@@ -1,0 +1,20 @@
+{
+  "name": "SuppTime",
+  "short_name": "SuppTime",
+  "description": "Slik je supplementen op het juiste moment, met de juiste cofactoren.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f8fafc",
+  "theme_color": "#2563eb",
+  "lang": "nl",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
